@@ -1,6 +1,7 @@
 package med.voll.api.domain.consulta;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,13 +34,6 @@ public class Consulta {
 
     private LocalDateTime data;
 
-    public Consulta(Long id, Medico medico, Paciente paciente, LocalDateTime data) {
-        this.id = id;
-        this.medico = medico;
-        this.paciente = paciente;
-        this.data = data;
-    }
-
     public Long getId() {
         return id;
     }
@@ -54,5 +48,21 @@ public class Consulta {
 
     public LocalDateTime getData() {
         return data;
+    }
+
+    @Column(name = "motivo_cancelamento")
+    @Enumerated(EnumType.STRING)
+    private MotivoCancelamento motivoCancelamento;
+
+    public void cancelar(MotivoCancelamento motivo) {
+        this.motivoCancelamento = motivo;
+    }
+
+    public Consulta(Long id, Medico medico, Paciente paciente, LocalDateTime data, MotivoCancelamento motivoCancelamento) {
+        this.id = id;
+        this.medico = medico;
+        this.paciente = paciente;
+        this.data = data;
+        this.motivoCancelamento = motivoCancelamento;
     }
 }
